@@ -23,19 +23,21 @@ export const ToDoWrapper = () => {
         setTodos(todos.filter(todo => todo.id !== id))
     }
     const editTodo = id => {
-        setTodos(todos.map(toDo => toDo.id === id ? {...toDo,
-            isEditing: !toDo.isEditing} : toDo))
+        setTodos(todos.map(todo => todo.id === id ? {...todo,
+            isEditing: !todo.isEditing} : todo))
+    }
+    const editTask = (task, id) => {
+        setTodos(todos.map(todo => todo.id === id ? {...todo, task, isEditing: !todo.isEditing}: todo))
     }
     return (
         <div className="TodoWrapper">
             <h1>Get Things Done</h1>
             <ToDoForm addTodo={addTodo}/>
             {todos.map((todo, index) => (
-                toDo.isEditing ? (
-                    <EditToDoForm/>
-                    ): (
-                    <ToDo task={todo} key={index} toggleComplete={toggleComplete} deleteTodo={deleteTodo}
-                          editTodo={editTodo}/>
+                todo.isEditing ? (
+                    <EditToDoForm editTodo={editTask} task={todo}/>
+                    ) : (
+                    <ToDo task={todo} key={index} toggleComplete={toggleComplete} deleteTodo={deleteTodo} editTodo={editTodo}/>
                     )
 
             ))}
