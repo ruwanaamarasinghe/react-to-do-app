@@ -3,6 +3,7 @@ import ToDoForm from "./ToDoForm";
 import {v4 as uuidv4} from 'uuid';
 import ToDo from "./ToDo";
 import toDo from "./ToDo";
+import {EditToDoForm} from "./EditToDoForm";
 uuidv4();
 
 export const ToDoWrapper = () => {
@@ -21,12 +22,22 @@ export const ToDoWrapper = () => {
     const deleteTodo = id => {
         setTodos(todos.filter(todo => todo.id !== id))
     }
+    const editTodo = id => {
+        setTodos(todos.map(toDo => toDo.id === id ? {...toDo,
+            isEditing: !toDo.isEditing} : toDo))
+    }
     return (
         <div className="TodoWrapper">
             <h1>Get Things Done</h1>
             <ToDoForm addTodo={addTodo}/>
             {todos.map((todo, index) => (
-                <ToDo task={todo} key={index} toggleComplete={toggleComplete} deleteTodo={deleteTodo}/>
+                toDo.isEditing ? (
+                    <EditToDoForm/>
+                    ): (
+                    <ToDo task={todo} key={index} toggleComplete={toggleComplete} deleteTodo={deleteTodo}
+                          editTodo={editTodo}/>
+                    )
+
             ))}
         </div>
     )
